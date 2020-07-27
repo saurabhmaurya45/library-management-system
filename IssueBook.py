@@ -1,7 +1,7 @@
 from tkinter import *
 import pymysql as ms
 from tkinter import messagebox
-from reverse import *
+
 
 # Add your own database name and password here to reflect in the code
 mypass = "saurabh"
@@ -15,7 +15,7 @@ lst3 = []
 
 
 def issue():
-    global lst3, lst2, lst1
+    global lst3, lst2, lst1,l1
 
     bid = en2.get()
     sid = en3.get()
@@ -27,10 +27,8 @@ def issue():
         cur.execute('select Book_Id from books')
         for i in cur:
             lst1.append(i[0])
-
-        c = type(bid)
-        d = type(sid)
-
+        c = type(int(bid))
+        d = type(int(sid))
         if c == int and d == int:
             a = int(bid)
             b = int(sid)
@@ -38,26 +36,28 @@ def issue():
                 cur.execute("select status from books where Book_Id =" + bid + "")
                 for i in cur:
                     status = i[0]
-
                 b_issue = "insert into issue values('" + bid + "','" + sid + "','" + sname + "','" + cl + "','" + issuedfrom + "','" + issuedto + "',NULL)"
                 update = "update books set status='issued' where Book_Id =" + bid + ""
-
                 if status == 'avail':
-
                     cur.execute(b_issue)
                     con.commit()
                     cur.execute(update)
                     con.commit()
-                    messagebox.showinfo('Success', 'Book issued successfully')
+                    lb12 = Label(f1, text='Book issued Successfully            ', bg='black', fg='white', bd=5, font=("bookman old style", 12, "bold"))
+                    lb12.place(relx=0.3, rely=0.75)
                 else:
-                    messagebox.showinfo('Issued', 'Book has been taken by someone else')
+                    lb12 = Label(f1, text='Book has been taken by someone else', bg='black', fg='white', bd=5,
+                                 font=("bookman old style", 12, "bold"))
+                    lb12.place(relx=0.3, rely=0.75)
             else:
 
-                messagebox.showinfo('Error', 'You have entered wrong Book Id')
+                lb12 = Label(f1, text='You have enterd wrong book id      ', bg='black', fg='white', bd=5,
+                             font=("bookman old style", 12, "bold"))
+                lb12.place(relx=0.3, rely=0.75)
         else:
-            messagebox.showinfo('Error', 'Book Id and Student Id must be number')
+            False
     except:
-        print(False)
+        messagebox.showinfo('Error', 'Book Id and Student Id must be number')
     en2.delete(0, END)
     en3.delete(0, END)
     en4.delete(0, END)
@@ -67,11 +67,23 @@ def issue():
 
 lst1.clear()
 
+def reverse(string):
+    s1=''
+    if string[0]=='0':
+        for i in range(-len(string)+1,0):
+            s1=s1+string[-i]
+    else:
+        pass
+
+    return s1
 
 def submit():
     bid1 = en8.get()
     sid = en9.get()
     subdate = en10.get()
+
+
+
     try:
         cur.execute('select book_id from issue')
         for i in cur:
@@ -80,9 +92,10 @@ def submit():
         for i in cur:
             lst3.append(i[0])
 
-        c = type(bid1)
-        d = type(sid)
+        c = type(int(bid1))
+        d = type(int(sid))
         if c == int and d == int:
+
             a = int(bid1)
             b = int(sid)
             if a in lst2:
@@ -93,37 +106,45 @@ def submit():
                     avail = "update books set status='avail' where Book_Id=" + bid1 + ""
                     cur.execute(avail)
                     con.commit()
-                    messagebox.showinfo('Success', 'Successfully submitted Book')
+                    lb12 = Label(f2, text='Successfully submitted book', bg='black', fg='white', bd=5,
+                             font=("bookman old style", 12, "bold"))
+                    lb12.place(relx=0.3, rely=0.75)
 
 
                     # fine
                     lst4 = []
                     lst5 = []
-                    lastdate = "select issued_to from issue where book_id =" + bid1 + ""
+                    lastdate = "select issued_to from issue where book_id =" + bid1 + " and stu_id="+sid+""
                     cur.execute(lastdate)
                     for i in cur:
                         lst4.append(i[0])
 
-                    subdate = "select submition_date from issue where book_id =" + bid1 + ""
+                    subdate = "select submition_date from issue where book_id =" + bid1 + " and stu_id="+sid+""
                     cur.execute(subdate)
                     for i in cur:
                         lst5.append(i[0])
                     d1 = reverse(lst4[0])
                     d2 = reverse(lst5[0])
+                    print(d1,d2)
                     for i in d1:
                         d3 = ''
                         if i == '-':
                             pass
                         else:
                             d3 = d3 + i
+
                     for i in d2:
                         d4 = ''
                         if i == '-':
                             pass
                         else:
                             d4 = d4 + i
+
+                    print(d3,d4)
                     days = (int(d4) - int(d3))
+
                     fine = days * 10
+                    print(days,fine)
                     if days >0:
 
                         f = str(fine)
@@ -132,39 +153,47 @@ def submit():
                         l1 = Label(f3, text=" " + d + " days late submission. Have to pay fine Of Rs. " + f + "", bd=5,
                                bg='#333645',
                                fg='#fff',
-                               font=('bookman old style', 30, 'bold',))
-                        l1.place(relx=0.1, rely=0.25)
+                               font=('bookman old style', 20, 'bold',))
+                        l1.place(relx=0.2, rely=0.38)
+
                     else:
                         # Late submission
-                        l1 = Label(f3, text='Submission on time. You are a punctual man', bd=5,
+                        l1 = Label(f3, text='Submission on time. You are a punctual man             ', bd=5,
                                    bg='#333645',
                                    fg='#fff',
-                                   font=('bookman old style', 30, 'bold',))
-                        l1.place(relx=0.1, rely=0.25)
+                                   font=('bookman old style', 20, 'bold',))
+                        l1.place(relx=0.2, rely=0.38)
 
                 else:
-                    messagebox.showinfo('Warning', 'Wrong Student')
+                    lb12 = Label(f2, text='Wrong Student              ', bg='black', fg='white', bd=5,
+                                 font=("bookman old style", 12, "bold"))
+                    lb12.place(relx=0.3, rely=0.75)
             else:
-                messagebox.showinfo('Error', 'You have entered wrong Book Id')
+                lb12 = Label(f2, text='Wrong Book Id              ', bg='black', fg='white', bd=5,
+                             font=("bookman old style", 12, "bold"))
+                lb12.place(relx=0.3, rely=0.75)
         else:
-            messagebox.showinfo('Error', 'Book Id and Student Id must be number')
+            False
     except:
-        print(False)
+        messagebox.showinfo('Error', 'Book Id and Student Id must be number')
     en8.delete(0, END)
     en9.delete(0, END)
     en10.delete(0, END)
+
 lst2.clear()
 lst3.clear()
 
 
+
 def issuebooks():
-    global en1, en2, en3, en4, en5, en6, en7, en8, en9, en10, f3,root
+    global en1, en2, en3, en4, en5, en6, en7, en8, en9, en10, f3,root,f1,f2
     root = Tk()
     root.title("Library")
     root.minsize(width=400, height=400)
     root.geometry("1350x700+0+0")
-    title = Label(root, text="Welcome to Sterling's Library", bd=10, relief=GROOVE,
-                  font=("algerian", 40, "bold"), bg="violet", fg="black")
+    root.config(bg='#0099cc')
+    title = Label(root, text="Welcome to Sterling's Library", bd=15, relief=GROOVE,
+                  font=("algerian", 40, "bold"), bg="red", fg="white")
     title.pack(side=TOP, fill=X)
 
     same = True
@@ -221,7 +250,7 @@ def issuebooks():
     # Submit
     btn = Button(f1, text='Issue', bd=10, bg='#f7f1e3', relief=GROOVE, font=("bookman old style", 16, "bold"),
                  command=issue)
-    btn.place(relx=0.2, rely=0.8, relwidth=0.25, relheight=0.13)
+    btn.place(relx=0.2, rely=0.85, relwidth=0.25, relheight=0.13)
 
     lebel2 = Label(f2, text='Submit Book', font=('bookman old style', 24, 'bold'), bd=10, relief=GROOVE)
     lebel2.place(relx=0.30, rely=0.01)
@@ -248,5 +277,15 @@ def issuebooks():
     # Submit
     btn = Button(f2, text='Submit', bd=10, bg='#f7f1e3', relief=GROOVE, font=("bookman old style", 16, "bold"),
                  command=submit)
-    btn.place(relx=0.2, rely=0.8, relwidth=0.25, relheight=0.13)
+    btn.place(relx=0.2, rely=0.85, relwidth=0.25, relheight=0.13)
+    btn = Button(f2, text='Quit', bd=10, bg='#f7f1e3', relief=GROOVE, font=("bookman old style", 16, "bold"),
+                 command=root.quit)
+    btn.place(relx=0.65, rely=0.85, relwidth=0.25, relheight=0.13)
+
+    lb11 = Label(f3, text='Calculated Fine', bg='black', fg='white', font=("bookman old style", 16, "bold"))
+    lb11.place(relx=0.45, rely=0.1)
+
     root.mainloop()
+
+
+

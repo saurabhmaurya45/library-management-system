@@ -15,48 +15,46 @@ bookTable = "books" #Book Table
     
 
 def search():
-    
-    global SearchBtn,labelFrame,lb1,en1,quitBtn,root
-    
-    sub = en1.get()
+    global SearchBtn, labelFrame3, lb1, en1, quitBtn, root
 
+    sub = en1.get()
     SearchBtn.destroy()
-    quitBtn.destroy()
     lb1.destroy()
     en1.destroy()
 
     same = True
     n = 0.3
 
-    labelFrame = Frame(root,bg='black')
-    labelFrame.place(relx=0.1,rely=0.3,relwidth=0.8,relheight=0.5)
-    
+    labelFrame3= Frame(root, bg='#333945',bd=10,relief=GROOVE)
+    labelFrame3.place(relx=0.1, rely=0.3, relwidth=0.8, relheight=0.55)
+
     y = 0.25
 
-    Label(labelFrame, text="%-25s%-40s%-35s%-40s%-25s" % ('BID', 'Title', 'Subject', 'Author', 'Status'),
-          font=("times new roman", 14, "bold"), bg='black',
+    Label(labelFrame3, text="%-20s%-35s%-30s%-35s%-20s" % ('BID', 'Title', 'Subject', 'Author', 'Status'),
+          font=("times new roman", 18, "bold"), bg='#333945',
           fg='white').place(relx=0.07, rely=0.1)
-    Label(labelFrame,
+    Label(labelFrame3,
           text="--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
-          bg='black',
+          bg='#333945',
           fg='white').place(relx=0.05, rely=0.2)
-    searchSql = "select * from "+bookTable+" where subject = '"+sub+"'"
+    searchSql = "select * from " + bookTable + " where subject = '" + sub + "'"
     try:
         cur.execute(searchSql)
         con.commit()
         for i in cur:
-            Label(labelFrame, text="%-25s%-35s%-35s%-45s%-25s" % (i[0], i[1], i[2], i[3], i[4]), bg='black',
+            Label(labelFrame3, text="%-20s%-35s%-40s%-45s%-30s" % (i[0], i[1], i[2], i[3], i[4]), bg='#333945',
                   font=("times new roman", 14, "bold"),
                   fg='white').place(relx=0.07, rely=y)
             y += 0.1
             print(i)
     except:
-        messagebox.showinfo("Search Error","The value entered is wrong, Try again")
-    
+        messagebox.showinfo("Search Error", "The value entered is wrong, Try again")
+
     print(sub)
-    
-    quitBtn = Button(root,text=" Back",bg='#455A64', fg='white',bd=10, relief =GROOVE, font=('times new ronam',18,'bold'), command=searchBook)
-    quitBtn.place(relx=0.53,rely=0.85, relwidth=0.18,relheight=0.08)
+
+    quitBtn = Button(root, text=" Back", bg='#455A64', fg='white', bd=10, relief=GROOVE,
+                     font=('times new ronam', 18, 'bold'), command=searchBook)
+    quitBtn.place(relx=0.53, rely=0.88, relwidth=0.18, relheight=0.08)
 
     
 def searchBook():
@@ -66,17 +64,18 @@ def searchBook():
     root.title("Library")
     root.minsize(width=400, height=400)
     root.geometry("1350x700+0+0")
-    title = Label(root, text="Welcome to Sterling's Library", bd=10, relief=GROOVE,
-                  font=("algerian", 40, "bold"), bg="violet", fg="black")
+    root.config(bg='#0099cc')
+    title = Label(root, text="Welcome to Sterling's Library", bd=15, relief=GROOVE,
+                  font=("algerian", 40, "bold"), bg="red", fg="white")
     title.pack(side=TOP, fill=X)
 
-    labelFrame = Frame(root, bg='black', bd=10, relief=GROOVE)
+    labelFrame = Frame(root, bg='#333945', bd=10, relief=GROOVE)
     labelFrame.place(relx=0.1, rely=0.35, relwidth=0.8, relheight=0.3)
 
-    headingFrame1 = Frame(root, bg="crimson", bd=10, relief=GROOVE)
+    headingFrame1 = Frame(root, bg="blue", bd=10, relief=GROOVE)
     headingFrame1.place(relx=0.25, rely=0.15, relwidth=0.60, relheight=0.13)
 
-    headingLabel = Label(headingFrame1, text="SEARCH BOOK", bg='crimson', fg='black',
+    headingLabel = Label(headingFrame1, text="SEARCH BOOK", bg='blue', fg='white',
                          font=("bookman old style", 34, "bold"))
     headingLabel.place(relx=0.25, rely=0.15, relwidth=0.5, relheight=0.5)
 
@@ -85,7 +84,7 @@ def searchBook():
     lb1.place(relx=0.08, rely=0.39)
 
     en1 = Entry(labelFrame)
-    en1.place(relx=0.3, rely=0.43, relwidth=0.62, relheight=0.15)
+    en1.place(relx=0.3, rely=0.415, relwidth=0.62, relheight=0.16)
 
     # Submit Button
     SearchBtn = Button(root, text="SEARCH", bg='#d1ccc0', fg='black', font=("times new roman", 18, "bold"),
@@ -97,3 +96,5 @@ def searchBook():
     quitBtn.place(relx=0.53, rely=0.75, relwidth=0.18, relheight=0.08)
 
     root.mainloop()
+
+

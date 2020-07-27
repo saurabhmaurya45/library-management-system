@@ -1,3 +1,4 @@
+
 from ViewBooks import *
 from AddBooks import *
 from IssueBook import *
@@ -11,22 +12,20 @@ def empMenu():
     root.title("Library")
     root.minsize(width=400, height=400)
     root.geometry("1350x700+0+0")
+    root.config(bg='#0099cc')
     title = Label(root, text="Welcome to Sterling's Library", bd=10, relief=GROOVE,
-                  font=("algerian", 40, "bold"), bg="violet", fg="black")
+                  font=("algerian", 40, "bold"), bg="red", fg="white")
     title.pack(side=TOP, fill=X)
 
     mycursor ='saurabh'
 
-    same = True
-    n = 0.3
-
-    headingFrame1 = Frame(root, bg="crimson", bd=10, relief=GROOVE)
+    headingFrame1 = Frame(root, bg="blue", bd=10, relief=GROOVE)
     headingFrame1.place(relx=0.25, rely=0.15, relwidth=0.5, relheight=0.13)
 
-    headingFrame2 = Frame(headingFrame1, bg="crimson")
+    headingFrame2 = Frame(headingFrame1, bg="blue")
     headingFrame2.place(relx=0.01, rely=0.1, relwidth=0.98, relheight=0.9)
 
-    headingLabel = Label(headingFrame2, text="MENU",bg='crimson', fg='black', font=("bookman old style", 36, "bold"))
+    headingLabel = Label(headingFrame2, text="MENU",bg='blue', fg='white', font=("bookman old style", 36, "bold"))
     headingLabel.place(relx=0.25, rely=0.20, relwidth=0.5, relheight=0.55)
 
     headingFrame3=Label(root,text="User:"+mycursor+"",fg='green',font=("bookman old style", 18, "bold"))
@@ -46,6 +45,11 @@ def empMenu():
 
     btn5 = Button(root, text="Issue/Submit  Book  to/from  Student", bg='black', fg='white',relief=GROOVE,bd=5,font=("times new roman", 18, "bold"), command=issuebooks)
     btn5.place(relx=0.28, rely=0.74, relwidth=0.45, relheight=0.1)
-
+    
 
     root.mainloop()
+
+
+
+
+
